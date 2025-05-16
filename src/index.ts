@@ -1,14 +1,19 @@
-import express from 'express';
+import express, { Application } from 'express';
+import bodyParser from 'body-parser';
+import { AspersionControlController } from './controllers/aspersion_control_controller';
+import cors from 'cors';
 
-const app = express();
-const PORT = process.env.PORT || 3000;
+const app: Application = express();
+const port = process.env.PORT || 3000;
+const aspersionControlController = new AspersionControlController();
 
-app.use(express.json());
+app.use(bodyParser.json());
+app.use(cors());
 
-app.get('/', (_req, res) => {
-  res.send('Backend with TypeScript ready!');
-});
+app.post('/api/aspersion-controls', aspersionControlController.createAspersionControl.bind(aspersionControlController));
+app.get('/api/aspersion-controls', aspersionControlController.getAllAspersionControls.bind(aspersionControlController));
+app.get('/api/aspersion-controls/:id', aspersionControlController.getAspersionControlById.bind(aspersionControlController));
 
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });
