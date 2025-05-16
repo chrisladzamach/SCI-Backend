@@ -31,6 +31,8 @@ npm install
 npm run dev
 ```
 
+Debería aparecer algo como esto:
+
 ```bash
 > sci-backend@1.0.0 dev
 > ts-node-dev --respawn --transpile-only src/index.ts
