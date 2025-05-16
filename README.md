@@ -1,4 +1,4 @@
-# SCI-BACK (Sistema Centralizado de Información - Backend)  
+# SCI-Backend (Sistema Centralizado de Información - Backend)  
 Node.js + Express + TypeScript
 
 Backend del sistema SCI desarrollado en TypeScript utilizando Node.js y Express.
