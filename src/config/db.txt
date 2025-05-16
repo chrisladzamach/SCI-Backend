@@ -1,0 +1,63 @@
+CREATE DATABASE scidb;
+USE scidb;
+
+-- Table to store the concentration control information
+CREATE TABLE concentration_control (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    record_date DATE NOT NULL,
+    record_time TIME NOT NULL,
+    product VARCHAR(255) NOT NULL,
+    concentration VARCHAR(50),
+    filter_area VARCHAR(255) NOT NULL,
+    responsible VARCHAR(255) NOT NULL,
+    observations TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+SELECT * FROM concentration_control;
+
+-- Table for the possible filters (optional, for normalization)
+CREATE TABLE filters (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) UNIQUE NOT NULL
+);
+
+-- Insert the predefined filters
+INSERT INTO filters (name) VALUES
+('Filtro-UHT'),
+('Filtro-Fermentados'),
+('Filtro-Bodega'),
+('Filtro-Bodega-UHT');
+
+SELECT * FROM filters;
+
+-- Modify the main table to use the filters table (optional)
+ALTER TABLE concentration_control
+DROP COLUMN filter_area,
+ADD COLUMN filter_id INT NOT NULL,
+ADD FOREIGN KEY (filter_id) REFERENCES filters(id);
+
+-- Table for the responsible parties (optional, for normalization)
+CREATE TABLE responsibles (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) UNIQUE NOT NULL,
+    code VARCHAR(255) UNIQUE NOT NULL -- You can use the 'value' as code
+);
+
+SELECT * FROM responsibles;
+
+-- Insert the predefined responsibles
+INSERT INTO responsibles (name, code) VALUES
+('Juliana Burbano', 'inspector-calidad1'),
+('Wilder Barrero', 'inspector-calidad2'),
+('Liceth Alfonso', 'sistemas-de-gestion');
+
+-- Modify the main table to use the responsibles table (optional)
+ALTER TABLE concentration_control
+DROP COLUMN responsible,
+ADD COLUMN responsible_id INT NOT NULL,
+ADD FOREIGN KEY (responsible_id) REFERENCES responsibles(id);
+
+-- Insert an example of data based on the React component logic
+INSERT INTO concentration_control (record_date, record_time, product, concentration, filter_id, responsible_id, observations) VALUES
+(CURDATE(), CURTIME(), 'Divosan', '0.20%', (SELECT id FROM filters WHERE name = 'Filtro-UHT'), (SELECT id FROM responsibles WHERE code = 'inspector-calidad1'), 'Primera revisión del día.');
