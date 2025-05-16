@@ -31,7 +31,7 @@ npm install
 npm run dev
 ```
 
-Debería aparecer algo como esto:
+Debería verse algo como esto en consola:
 
 ```bash
 > sci-backend@1.0.0 dev
