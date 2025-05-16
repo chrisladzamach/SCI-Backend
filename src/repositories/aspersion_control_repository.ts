@@ -16,7 +16,8 @@ export class AspersionControlRepository {
         dto.hora,
         dto.producto,
         dto.concentration,
-        dto.filtro,
+        dto.filtro,-
+
         dto.responsable,
         dto.observaciones,
       ]
